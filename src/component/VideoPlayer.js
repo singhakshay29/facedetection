@@ -1,12 +1,30 @@
 // VideoPlayer.js
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 import { fabric } from "fabric";
+import { Button } from "@mui/material";
 
+const styles = {
+  historyBtn: {
+    width: 150,
+    height: 40,
+    marginTop: "1rem",
+    cursor: "pointer",
+    borderRadius: 10,
+    backgroundColor: "transparent",
+    fontFamily: "Ubuntu, sans-serif",
+    boxShadow: "0 20px 60px rgba(4, 0, 0, 0.5)",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "#333",
+    },
+  },
+};
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const overlayRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const setupFaceDetection = async () => {
@@ -79,35 +97,43 @@ const VideoPlayer = () => {
 
     if (video.paused) {
       video.play();
+      setIsPlaying(true);
     } else {
       video.pause();
+      setIsPlaying(false);
     }
   };
 
   return (
-    <div className="video-player-container">
-      <input type="file" onChange={handleVideoUpload} accept="video/*" />
-      <video
-        ref={videoRef}
-        controls
-        width="640"
-        height="480"
-        className="video-player"
-      />
-      <canvas
-        ref={canvasRef}
-        width="640"
-        height="480"
-        className="face-canvas"
-      />
-      <canvas
-        ref={overlayRef}
-        width="640"
-        height="480"
-        className="face-canvasOverlay"
-      />
-      <button onClick={handlePlayPause}>Play/Pause</button>
-    </div>
+    <>
+      <div className="video-player-container">
+        <input type="file" onChange={handleVideoUpload} accept="video/*" />
+        <video
+          ref={videoRef}
+          controls
+          width="640"
+          height="480"
+          style={{ display: "none" }}
+          className="video-player"
+        />
+        <canvas
+          ref={canvasRef}
+          width="640"
+          height="480"
+          className="face-canvas"
+        />
+        <canvas
+          ref={overlayRef}
+          width="640"
+          height="480"
+          className="face-canvasOverlay"
+        />
+
+        <Button onClick={handlePlayPause} sx={styles.historyBtn}>
+          {isPlaying ? "Pause" : "Play"}
+        </Button>
+      </div>
+    </>
   );
 };
 
