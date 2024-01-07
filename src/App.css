@@ -52,11 +52,11 @@ body {
   position: absolute;
   border: 1px solid red;
   pointer-events: none;
-  top: 40px;
+  top: 8rem;
 }
 
 .face-canvasOverlay {
-  position: absolute;
+  position: absolute !important;
   border: 1px solid green;
   pointer-events: none;
   top: 0;

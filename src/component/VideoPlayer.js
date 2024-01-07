@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 import { fabric } from "fabric";
 import { Button } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const styles = {
   historyBtn: {
@@ -107,13 +108,31 @@ const VideoPlayer = () => {
   return (
     <>
       <div className="video-player-container">
-        <input type="file" onChange={handleVideoUpload} accept="video/*" />
+        <label
+          htmlFor="uploadFile"
+          style={{
+            padding: "10px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            fontFamily: "Ubuntu, sans-serif",
+          }}>
+          <CloudUploadIcon style={{ fontSize: "40px" }} />
+          Upload Video
+          <input
+            id="uploadFile"
+            type="file"
+            style={{ visibility: "hidden" }}
+            onChange={handleVideoUpload}
+            accept="video/*"
+          />
+        </label>
+
         <video
           ref={videoRef}
           controls
           width="640"
           height="480"
-          style={{ display: "none" }}
           className="video-player"
         />
         <canvas
