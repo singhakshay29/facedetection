@@ -1,4 +1,3 @@
-// VideoPlayer.js
 import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 import { fabric } from "fabric";
@@ -147,19 +146,17 @@ const VideoPlayer = () => {
   return (
     <>
       <div className="video-player-container">
-        <>
-          <label htmlFor="uploadFile" style={styles.uploadLabel}>
-            <CloudUploadIcon style={{ fontSize: "40px" }} />
-            Upload Video
-            <input
-              id="uploadFile"
-              type="file"
-              style={{ visibility: "hidden" }}
-              onChange={handleVideoUpload}
-              accept="video/*"
-            />
-          </label>
-        </>
+        <label htmlFor="uploadFile" style={styles.uploadLabel}>
+          <CloudUploadIcon style={{ fontSize: "40px" }} />
+          Upload Video
+          <input
+            id="uploadFile"
+            type="file"
+            style={{ visibility: "hidden" }}
+            onChange={handleVideoUpload}
+            accept="video/*"
+          />
+        </label>
         <video
           ref={videoRef}
           width="640"
@@ -189,7 +186,6 @@ const VideoPlayer = () => {
             </Button>
           </>
         )}
-
         {showbtn && (
           <Button onClick={handlePlayPause} sx={styles.historyBtn}>
             {isPlaying ? "Pause" : "Play"}

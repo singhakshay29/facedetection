@@ -36,26 +36,22 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Fix the typo here */
+  align-items: center;
 }
-
 .video-player {
   width: 640px;
   height: 480px;
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Add a margin to center the video */
+  margin-top: 20px;
 }
-
 .face-canvas {
   position: absolute;
   pointer-events: none;
   top: 8rem;
 }
-
 .face-canvasOverlay {
   position: absolute !important;
-
   pointer-events: none;
 }
 .button-styled {
