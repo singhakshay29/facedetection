@@ -30,10 +30,9 @@ body {
     background-position: 0% 0%;
   }
 }
-
 .video-player-container {
   position: relative;
-  margin-top: 10rem;
+  margin-top: 15rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,16 +49,14 @@ body {
 
 .face-canvas {
   position: absolute;
-  border: 1px solid red;
   pointer-events: none;
   top: 8rem;
 }
 
 .face-canvasOverlay {
   position: absolute !important;
-  border: 1px solid green;
+
   pointer-events: none;
-  top: 0;
 }
 .button-styled {
   background-color: #4caf50;
@@ -70,4 +67,8 @@ body {
   margin-top: 20px;
   border: none;
   font-size: 16px;
+}
+.canvas-container {
+  position: absolute !important;
+  top: 8rem;
 }

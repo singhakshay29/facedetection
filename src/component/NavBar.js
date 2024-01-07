@@ -4,11 +4,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import logo from "../assets/logo.png";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 const styles = {
   container: {
     display: "flex",
+    zIndex: 1000,
     justifyContent: "space-between",
   },
   logo: {
@@ -19,7 +20,7 @@ const styles = {
     fontFamily: "Ubuntu",
     fontWeight: 700,
     marginTop: "1rem",
-    color: "black",
+    color: "#00FEFB",
     textDecoration: "none",
   },
   historyBtn: {
@@ -40,10 +41,10 @@ const styles = {
 
 export default function NavBar() {
   return (
-    <AppBar style={{ background: "transparent", position: "fixed" }}>
-      <Container maxWidth="xl" style={{ backgroundColor: "transparent" }}>
+    <AppBar style={{ background: "black", position: "fixed" }}>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Container className="display" sx={styles.container}>
+          <Container sx={styles.container}>
             <Box>
               <img
                 src={logo}
@@ -58,9 +59,12 @@ export default function NavBar() {
               </Typography>
             </Box>
             <Box>
-              <Button className="history-btn" sx={styles.historyBtn}>
-                History
-              </Button>
+              <img
+                src={logo}
+                className="logo"
+                alt="amazon music"
+                style={styles.logo}
+              />
             </Box>
           </Container>
         </Toolbar>

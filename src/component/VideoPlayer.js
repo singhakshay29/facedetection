@@ -20,18 +20,54 @@ const styles = {
       backgroundColor: "#333",
     },
   },
+  uploadLabel: {
+    padding: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "Ubuntu, sans-serif",
+    boxShadow: "0 20px 60px rgba(4, 0, 0, 0.5)",
+  },
+  videoPlayerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  greenMessage: {
+    color: "#00FEFB",
+    fontFamily: "Ubuntu, sans-serif",
+    marginTop: "3rem",
+  },
 };
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const overlayRef = useRef(null);
+  const [show, setShow] = useState("none");
+  const [showbtn, setShowbtn] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [showUploadMessage, setShowUploadMessage] = useState(false);
 
+  const handleShowVideo = () => {
+    if (!fileUploaded) {
+      return;
+    }
+    if (show === "none") {
+      setShow("flex");
+      setShowbtn(true);
+    } else {
+      setShow("none");
+      setShowbtn(false);
+    }
+  };
   useEffect(() => {
     const setupFaceDetection = async () => {
       await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
       await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
       await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+      await faceapi.nets.ageGenderNet.loadFromUri("/models");
+      await faceapi.nets.faceExpressionNet.loadFromUri("/models");
 
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -49,7 +85,9 @@ const VideoPlayer = () => {
           const detections = await faceapi
             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
-            .withFaceDescriptors();
+            .withFaceDescriptors()
+            .withFaceExpressions()
+            .withAgeAndGender();
           const resizedDetections = faceapi.resizeResults(
             detections,
             displaySize
@@ -90,9 +128,10 @@ const VideoPlayer = () => {
     if (file) {
       const videoURL = URL.createObjectURL(file);
       video.src = videoURL;
+      setFileUploaded(true);
+      setShowUploadMessage(true);
     }
   };
-
   const handlePlayPause = () => {
     const video = videoRef.current;
 
@@ -108,32 +147,25 @@ const VideoPlayer = () => {
   return (
     <>
       <div className="video-player-container">
-        <label
-          htmlFor="uploadFile"
-          style={{
-            padding: "10px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            fontFamily: "Ubuntu, sans-serif",
-          }}>
-          <CloudUploadIcon style={{ fontSize: "40px" }} />
-          Upload Video
-          <input
-            id="uploadFile"
-            type="file"
-            style={{ visibility: "hidden" }}
-            onChange={handleVideoUpload}
-            accept="video/*"
-          />
-        </label>
-
+        <>
+          <label htmlFor="uploadFile" style={styles.uploadLabel}>
+            <CloudUploadIcon style={{ fontSize: "40px" }} />
+            Upload Video
+            <input
+              id="uploadFile"
+              type="file"
+              style={{ visibility: "hidden" }}
+              onChange={handleVideoUpload}
+              accept="video/*"
+            />
+          </label>
+        </>
         <video
           ref={videoRef}
-          controls
           width="640"
           height="480"
           className="video-player"
+          style={{ display: show }}
         />
         <canvas
           ref={canvasRef}
@@ -147,10 +179,22 @@ const VideoPlayer = () => {
           height="480"
           className="face-canvasOverlay"
         />
+        {showUploadMessage && fileUploaded && (
+          <div style={styles.greenMessage}>Video uploaded successfully!</div>
+        )}
+        {!showbtn && (
+          <>
+            <Button onClick={handleShowVideo} sx={styles.historyBtn}>
+              Submit
+            </Button>
+          </>
+        )}
 
-        <Button onClick={handlePlayPause} sx={styles.historyBtn}>
-          {isPlaying ? "Pause" : "Play"}
-        </Button>
+        {showbtn && (
+          <Button onClick={handlePlayPause} sx={styles.historyBtn}>
+            {isPlaying ? "Pause" : "Play"}
+          </Button>
+        )}
       </div>
     </>
   );
