@@ -18,6 +18,7 @@ const styles = {
     "&:hover": {
       backgroundColor: "#333",
     },
+    marginBottom: "2rem",
   },
   uploadLabel: {
     padding: "10px",
@@ -35,7 +36,6 @@ const styles = {
   greenMessage: {
     color: "#00FEFB",
     fontFamily: "Ubuntu, sans-serif",
-    marginTop: "3rem",
   },
 };
 const VideoPlayer = () => {
